@@ -1,1 +1,1 @@
-web: bash check-site
+web: ./check-site
