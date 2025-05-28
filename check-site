@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Email address to receive alerts
+ALERT_EMAIL="abdussomad0010@gmail.com"
+
+# Define the list of websites to check
+sites=(
+  "https://roslaanwa.netlify.app/"
+  "https://roslaan001.pythonanywhere.com/"
+  "https://ai-agric-predict-price-c6e4ezg3gncvatau.eastus-01.azurewebsites.net/"
+)
+
+# Loop through each site
+for site in "${sites[@]}"; do
+    if curl -s -f "$site" > /dev/null; then
+        echo "$(date) - $site is up and running" >> site_log.txt
+    else
+        echo "$(date) - $site is down" >> site_log.txt
+        echo "$site appears to be down as of $(date)" | mail -s "Website DOWN Alert: $site" "$ALERT_EMAIL"
+    fi
+done
